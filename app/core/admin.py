@@ -11,8 +11,9 @@ from core import models
 
 class UserAdmin(BaseUserAdmin):
     """Define the admin pages for users."""
-    ordering = ['id']
-    list_display = ['email', 'name']
+
+    ordering = ['id']  # noqa: RUF012
+    list_display = ['email', 'name']  # noqa: RUF012
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (
@@ -23,24 +24,27 @@ class UserAdmin(BaseUserAdmin):
                     'is_staff',
                     'is_superuser',
                 )
-            }
+            },
         ),
         (translate('Important dates'), {'fields': ('last_login',)}),
     )
-    readonly_fields = ['last_login']
+    readonly_fields = ['last_login']  # noqa: RUF012
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': (
-                'email',
-                'password1',
-                'password2',
-                'name',
-                'is_active',
-                'is_staff',
-                'is_superuser',
-            )
-        }),
+        (
+            None,
+            {
+                'classes': ('wide',),
+                'fields': (
+                    'email',
+                    'password1',
+                    'password2',
+                    'name',
+                    'is_active',
+                    'is_staff',
+                    'is_superuser',
+                ),
+            },
+        ),
     )
 
 
