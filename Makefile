@@ -23,7 +23,12 @@ ruff_check_fix:
 ruff_format:
 	poetry run ruff format .
 
-# Commands for Docker version
+# Commands for Docker
+.PHONY: docker_startapp
+docker_startapp:
+	@read -p "Enter new django app name: " app_name; \
+	docker-compose run --rm app sh -c "python manage.py startapp $$app_name"
+
 docker_setup:
 	docker-compose build --no-cache app
 
@@ -31,11 +36,14 @@ docker_test:
 	docker-compose run --rm app sh -c "python manage.py test && ruff check ." --parallel
 
 docker_up:
+	docker-compose up
+
+docker_up_bg:
 	docker-compose up -d
 
 docker_update:
 	docker-compose down
-	docker-compose up -d --build
+	docker-compose up --build
 
 docker_down:
 	docker-compose down
