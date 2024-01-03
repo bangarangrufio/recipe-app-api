@@ -33,7 +33,7 @@ docker_setup:
 	docker-compose build --no-cache app
 
 docker_test:
-	docker-compose run --rm app sh -c "python manage.py test && ruff check ." --parallel
+	docker-compose run --rm app sh -c "python manage.py test && flake8 --max-line-length=120" --parallel
 
 docker_up:
 	docker-compose up

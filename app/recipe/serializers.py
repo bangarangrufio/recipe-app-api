@@ -24,7 +24,14 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'title', 'time_minutes', 'price', 'link', 'tags']  # noqa: RUF012
+        fields = [  # noqa: RUF012
+            'id',
+            'title',
+            'time_minutes',
+            'price',
+            'link',
+            'tags'
+        ]
         read_only_fields = ['id']  # noqa: RUF012
 
     def create(self, validated_data):
