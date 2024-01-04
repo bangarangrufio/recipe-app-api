@@ -52,7 +52,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Recipe(models.Model):
     """Recipe object."""
 
-    id: int  # Type hint for the automatically added `id` field
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -63,11 +62,26 @@ class Recipe(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     link = models.CharField(max_length=255, blank=True)
     tags = models.ManyToManyField('Tag')
+    ingredients = models.ManyToManyField('Ingredient')
 
     objects: models.Manager  # Type hint for the manager
 
     def __str__(self):
         return self.title
+
+
+class Ingredient(models.Model):
+    """Ingredient object."""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    objects: models.Manager  # Type hint for the manager
+
+    def __str__(self):
+        return self.name
 
 
 class Tag(models.Model):

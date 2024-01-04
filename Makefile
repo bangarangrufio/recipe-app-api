@@ -33,7 +33,7 @@ docker_setup:
 	docker-compose build --no-cache app
 
 docker_test:
-	docker-compose run --rm app sh -c "python manage.py test && flake8 --max-line-length=120" --parallel
+	docker-compose run --rm app sh -c "coverage run manage.py test && coverage report && flake8 --max-line-length=120" --parallel
 
 docker_up:
 	docker-compose up
@@ -56,3 +56,6 @@ docker_makemigrations:
 
 docker_migrate:
 	docker-compose run --rm app python manage.py migrate
+
+docker_armageddon:
+	docker system prune
