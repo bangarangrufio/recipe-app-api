@@ -2,6 +2,8 @@
 Tests for models.
 """
 
+from unittest.mock import patch
+
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -57,6 +59,11 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
+    def test_new_superuser_without_email_raises_error(self):
+        """Test that creating a superuser without an email raises a ValueError."""
+        with self.assertRaises(ValueError):
+            get_user_model().objects.create_superuser('', 'test123')
+
     def test_create_recipe(self):
         """Test creating a recipe is successful."""
         user = get_user_model().objects.create_user(
@@ -89,3 +96,12 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(ingredient), ingredient.name)
+
+    @patch('core.models.uuid.uuid4')
+    def test_recipe_file_name_uuid(self, mock_uuid):
+        """Test generating image path."""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.recipe_image_file_path(None, 'example.jpg')
+
+        self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
